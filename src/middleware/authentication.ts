@@ -24,7 +24,6 @@ export function authMiddleware(req: Request & CoreParams, res: Response, next: N
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as User;
     
-    console.log("authorization",decoded)
     req.user = decoded;
 
     next();

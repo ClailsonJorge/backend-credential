@@ -11,6 +11,7 @@ interface UserRepositoryType {
     find: () => Promise<User[]>;
     create: (user: UserProps) => Promise<User>;
     findByEmail: (email: string) => Promise<User>;
+    findById: (id: string) => Promise<User>;
 }
 
 const users: User[] = [];
@@ -35,6 +36,11 @@ export class UserRepository implements UserRepositoryType {
     
     findByEmail = async (email: string): Promise<User> => {
         const user = users.find(userFinded => userFinded.email === email);
+        return Promise.resolve(user);
+    }
+
+    findById = async (id: string): Promise<User> => {
+        const user = users.find(userFinded => userFinded.id === id);
         return Promise.resolve(user);
     }
 

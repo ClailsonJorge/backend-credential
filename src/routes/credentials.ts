@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { Request } from 'express-serve-static-core';
 import { authMiddleware } from '../middleware/authentication';
+import { CredentialController } from '../controllers/Credentials';
 
 const credentialsRouter = Router();
+const credentialController = new CredentialController();
 
-credentialsRouter.get("/", authMiddleware, (req: Request & { user: {} },res) => {
-    res.send(req.user)
-})
+credentialsRouter.get("/", authMiddleware, credentialController.getCredentials);
+credentialsRouter.post("/", authMiddleware, credentialController.create);
+credentialsRouter.put("/", authMiddleware, credentialController.updateCredential);
 
 export { credentialsRouter };
