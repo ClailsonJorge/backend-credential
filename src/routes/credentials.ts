@@ -5,7 +5,6 @@ import { authMiddleware } from '../middleware/authentication';
 const credentialsRouter = Router();
 
 credentialsRouter.get("/", authMiddleware, (req: Request & { user: {} },res) => {
-    console.log(req?.user);
     res.send(req.user)
 })
 

@@ -1,4 +1,4 @@
-import { User } from '../../entities/User';
+import { User } from '../../model/User';
 import { UserRepository } from '../../repository/UserRepository';
 import * as bcrypt from 'bcrypt';
 
@@ -11,13 +11,11 @@ export class UserService {
       if(hasEmail) throw new Error("Email already exist.");
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user = await this.userRepository.create({
+      const { password: deletedPassword, ...user } = await this.userRepository.create({
         name,
         email,
         password: hashedPassword,
       });
-
-      delete user.password;
 
       return user;
     }

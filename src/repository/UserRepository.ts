@@ -1,5 +1,5 @@
-import { User } from "../entities/User";
-import { AppDataSource } from "../../data-source"
+import { v4 as uuidv4 } from 'uuid';
+import { User } from '../model/User';
 
 interface UserProps {
     email: string;
@@ -13,22 +13,29 @@ interface UserRepositoryType {
     findByEmail: (email: string) => Promise<User>;
 }
 
+const users: User[] = [];
 export class UserRepository implements UserRepositoryType {
-    private photoRepository = AppDataSource.getRepository(User);
 
-    async find(): Promise<User[]> {
-        return await this.photoRepository.find();
+    find = async (): Promise<User[]> => {
+        return Promise.resolve(users);
     }
 
-    async create({ email, name, password }: UserProps): Promise<User> {
-        const newUser = await this.photoRepository.save({ email, name, password });
-
-        return newUser;
+    create = async ({ email, name, password }: UserProps): Promise<User> => {
+        const newUser = {
+            id: uuidv4(),
+            email,
+            name,
+            password,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        };
+        users.push(newUser);
+        return Promise.resolve(newUser);
     }
-
-    async findByEmail(email: string): Promise<User> {
-        const user = await this.photoRepository.findOneBy({ email });
-        return user;
+    
+    findByEmail = async (email: string): Promise<User> => {
+        const user = users.find(userFinded => userFinded.email === email);
+        return Promise.resolve(user);
     }
 
 }

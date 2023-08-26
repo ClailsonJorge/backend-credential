@@ -9,7 +9,6 @@ export class LoginService {
   authenticateUser = async (email: string, password: string): Promise<string | null> => {
     
     const user = await this.userRepository.findByEmail(email);
-      
     if (!user) {
         return null;
     }
@@ -21,12 +20,12 @@ export class LoginService {
     }
     
     const token = jwt.sign({ 
-      id: user.id, 
-      email: user.email, 
-      name: user.name, 
-      createdAt: user.created_at, 
-      updatedAt: user.updated_at, 
-      actived: user.actived }, JWT_SECRET, { expiresIn: '1d' });
+        id: user.id, 
+        email: user.email, 
+        name: user.name, 
+        createdAt: user.createdAt, 
+        updatedAt: user.updatedAt, 
+      }, JWT_SECRET, { expiresIn: '1d' });
 
     return token;
   }
